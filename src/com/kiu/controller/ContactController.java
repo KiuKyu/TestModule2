@@ -13,7 +13,7 @@ import com.kiu.model.Contact;
 
 public class ContactController implements GeneralController<Contact>, ReadFile, WriteFile {
     private List<Contact> contacts = new ArrayList<>();
-    private static final String PATH_CONTACT = "contact.csv";
+    private static final String PATH_CONTACT = "contact.txt";
 
     public ContactController() {
         File file = new File(PATH_CONTACT);
@@ -52,9 +52,8 @@ public class ContactController implements GeneralController<Contact>, ReadFile, 
         return index;
     }
 
-    public Contact getByIndex(String name) {
-        int contactIndex = findContactByName(name);
-        return contacts.get(contactIndex);
+    public Contact getByIndex(int index) {
+        return contacts.get(index);
     }
 
     public void udpateByPhone(String phoneNumber, Contact contact) {

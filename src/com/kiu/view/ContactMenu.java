@@ -111,12 +111,14 @@ public class ContactMenu {
     }
 
     public void showFindContact(ContactController contactController) {
+        scanner.nextLine();
         System.out.println("Tìm kiếm: ");
         System.out.println("Nhập tên người cần ");
         String name = scanner.nextLine();
         int contactIndex = contactController.findContactByName(name);
         if (contactIndex != -1) {
-            System.out.println("Thông tin cần tìm: " + contactController.getByIndex(name));
+            System.out.println("Thông tin cần tìm: ");
+            System.out.println(contactController.getByIndex(contactIndex));
         } else {
             System.out.println("Không tìm thấy");
         }
