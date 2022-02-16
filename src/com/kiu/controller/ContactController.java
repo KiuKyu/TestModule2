@@ -1,7 +1,10 @@
 package com.kiu.controller;
 
+import java.io.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +57,16 @@ public class ContactController implements GeneralController<Contact>, ReadFile, 
         return contacts.get(contactIndex);
     }
 
+    public void udpateByPhone(String phoneNumber, Contact contact) {
+        int contactIndex = findContactByPhone(phoneNumber);
+        contacts.set(contactIndex, contact);
+        try {
+            writeFile(PATH_CONTACT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void displayAll() {
         for (Contact contact : contacts) {
@@ -72,17 +85,31 @@ public class ContactController implements GeneralController<Contact>, ReadFile, 
     }
 
     @Override
-    public boolean confirmDelete(String id) {
+    public boolean confirmDelete(String phoneNumber) {
+        int contactIndex = findContactByPhone(phoneNumber);
+        if (contactIndex != -1) {
+            contacts.remove(contactIndex);
+            try {
+                writeFile(PATH_CONTACT);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
         return false;
     }
 
     @Override
     public void readFile(String path) throws IOException, ClassNotFoundException {
-
+        InputStream is = new FileInputStream(path);
+        ObjectInputStream ois = new ObjectInputStream(is);
+        contacts = (List<Contact>) ois.readObject();
     }
 
     @Override
     public void writeFile(String path) throws IOException {
-
+        OutputStream os = new FileOutputStream(path);
+        ObjectOutputStream oos = new ObjectOutputStream(os);
+        oos.writeObject(contacts);
     }
 }

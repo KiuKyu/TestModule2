@@ -5,5 +5,5 @@ public interface GeneralController<E> {
 
     void addNew(E e);
 
-    boolean confirmDelete(String id);
+    boolean confirmDelete(String phoneNumber);
 }

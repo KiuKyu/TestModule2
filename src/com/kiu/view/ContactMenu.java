@@ -24,10 +24,11 @@ public class ContactMenu {
                     break;
                 }
                 case 3: {
-
+                    updateContact(contactController);
                     break;
                 }
                 case 4: {
+                    deleteContact(contactController);
                     break;
                 }
                 case 5: {
@@ -69,6 +70,7 @@ public class ContactMenu {
 
     public Contact inputContactDetails() {
         System.out.println("Nhập tên: ");
+        scanner.nextLine();
         String name = scanner.nextLine();
 
         System.out.println("Nhập giới tính: ");
@@ -96,6 +98,18 @@ public class ContactMenu {
         contactController.addNew(contact);
     }
 
+    public void deleteContact(ContactController contactController) {
+        System.out.println("Xóa: ");
+        System.out.println("Nhập vào số điện thoại để tìm xóa: ");
+        String phoneNumber = scanner.nextLine();
+        boolean isDeleted = contactController.confirmDelete(phoneNumber);
+        if (isDeleted) {
+            System.out.println("Xóa thành công");
+        } else {
+            System.out.println("Không tồn tại");
+        }
+    }
+
     public void showFindContact(ContactController contactController) {
         System.out.println("Tìm kiếm: ");
         System.out.println("Nhập tên người cần ");
@@ -111,5 +125,15 @@ public class ContactMenu {
     public void updateContact(ContactController contactController) {
         System.out.println("Chỉnh sửa thông tin: ");
         System.out.println("Nhập tên");
+        scanner.nextLine();
+        String phoneNumber = scanner.nextLine();
+        int contactIndex = contactController.findContactByPhone(phoneNumber);
+        if (contactIndex != -1) {
+            Contact contact = inputContactDetails();
+            contactController.udpateByPhone(phoneNumber, contact);
+            System.out.println("Cập nhật thành công!");
+        } else {
+            System.out.println("Không tồn tại");
+        }
     }
 }
